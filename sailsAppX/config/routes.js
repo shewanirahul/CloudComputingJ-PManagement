@@ -33,7 +33,7 @@ module.exports.routes = {
   "/": { view: "pages/jobsMain" },
   "/homepage": { view: "pages/homepage" },
   "GET /getJobs": "Jobs.getParts",
-  "GET /getJobsById/:id/:partId": "Jobs.getPartsById",
+  "GET /getJobsById/:id/": "Jobs.getPartsById",
   "POST /postJobs": "Jobs.postParts",
   "Put /putJobs": "Jobs.putParts",
   "Delete /deleteJobs": "Jobs.deleteParts",

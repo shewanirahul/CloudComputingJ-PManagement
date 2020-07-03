@@ -19,9 +19,9 @@ module.exports = {
 
   getPartsById: function (req566, res566) {
     let id = req566.params.id;
-    let partId = req566.params.partId;
-    sails.log(id, partId);
-    Jobs.find({ id, partId }).exec(function (err566, succ566) {
+    //let partId = req566.params.partId;
+    //sails.log(id);
+    Jobs.find({ id }).exec(function (err566, succ566) {
       if (err566) {
         return res566.json(err566);
       }
@@ -33,7 +33,7 @@ module.exports = {
     let id = req566.body.jobName;
     let partId = req566.body.partId;
     let qty = parseInt(req566.body.qty, 0);
-    sails.log(id, partId, qty);
+    //sails.log(id, partId, qty);
     Jobs.find({ id, partId }).exec(function (err566, succ566) {
       if (err566) {
         return res566.json(err566);
@@ -55,7 +55,7 @@ module.exports = {
     let id = req566.body.jobName;
     let partId = req566.body.partId;
     let qty = parseInt(req566.body.qty, 0);
-    sails.log(id, partId, qty);
+    //sails.log(id, partId, qty);
     Jobs.find({ id, partId }).exec(function (err566, succ566) {
       if (err566) {
         return res566.json(err566);
@@ -99,7 +99,7 @@ module.exports = {
   getPartsView566: function (req566, res566) {
     let options = "";
     Jobs.query("select partId from `Project-G14`.parts", function (err, succ) {
-      sails.log(succ);
+      //sails.log(succ);
       options = succ["rows"];
     });
     Jobs.find().exec(function (err566, succ566) {
@@ -114,7 +114,7 @@ module.exports = {
   getPartsViewForUpdate566: function (req566, res566) {
     let options = "";
     Jobs.query("select partId from `Project-G14`.parts", function (err, succ) {
-      sails.log(succ);
+      //sails.log(succ);
       options = succ["rows"];
     });
     Jobs.find().exec(function (err566, succ566) {
@@ -122,7 +122,7 @@ module.exports = {
         return res566.json(err566);
       }
       // return res566.json(succ566);
-      sails.log(options);
+      //sails.log(options);
       res566.view("pages/updatejobs", { parts: succ566, options: options });
     });
   },
@@ -132,7 +132,7 @@ module.exports = {
     let partId = req566.body.PartId566;
     let qty = parseInt(req566.body.Quantity566, 0);
     let isUpdate = parseInt(req566.body.isUpdate, 0);
-    sails.log(id, partId, qty);
+    //sails.log(id, partId, qty);
     Jobs.find({ id, partId }).exec(function (err566, succ566) {
       if (err566) {
         return res566.json(err566);
@@ -157,7 +157,7 @@ module.exports = {
   deletePartsView566: function (req566, res566) {
     let id = req566.body.jobId566;
     let partId = req566.body.PartId566;
-    sails.log(id, partId);
+    //sails.log(id, partId);
     Jobs.find({ id, partId }).exec(function (err566, succ566) {
       if (err566) {
         return res566.json(err566);
@@ -186,7 +186,7 @@ module.exports = {
         }
         //return res566.json(succ566);
         options = succ566["rows"];
-        sails.log(options);
+        //sails.log(options);
         res566.json(options);
       }
     );
@@ -196,7 +196,7 @@ module.exports = {
     let id = req566.body.jobId566;
     let partId = req566.body.partId566;
     let qty = parseInt(req566.body.quantity566, 0);
-    sails.log(id, partId, qty);
+    //sails.log(id, partId, qty);
     Jobs.find({ id, partId }).exec(function (err566, succ566) {
       if (err566) {
         return res566.json(err566);
