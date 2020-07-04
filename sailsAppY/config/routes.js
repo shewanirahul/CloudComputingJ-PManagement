@@ -47,10 +47,10 @@ module.exports.routes = {
   "GET /getPartsViewForUpdate566": "Parts.getPartsViewForUpdate566",
   "POST /putPartsView566/": "Parts.putPartsView566",
 
-  "GET /getPartorders": "Partorders.getPartorders",
-  "POST /postPartorders": "Partorders.postPartorders",
+  "GET /getPartorders": "Partordersy.getPartorders",
+  "POST /postPartorders": "Partordersy.postPartorders",
   
-  "GET /getPartordersView": "Partorders.getPartordersView",
-  "POST /searchPartOrders": "Partorders.searchPartOrders",
+  "GET /getPartordersView": "Partordersy.getPartordersView",
+  "POST /searchPartOrders": "Partordersy.searchPartOrders",
   
 };

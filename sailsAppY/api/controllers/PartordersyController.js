@@ -8,7 +8,7 @@
 module.exports = {
   
     getPartorders: function (req566, res566) {
-        Partorders.find().exec(function (err566, succ566) {
+        Partordersy.find().exec(function (err566, succ566) {
             if (err566) {
                 return res566.json(err566)
             }
@@ -22,7 +22,7 @@ module.exports = {
         let jobName = req566.body.jobName;
         let qty = parseInt(req566.body.qty, 0);
         sails.log(id, userId, jobName,qty)
-        Partorders.create({ id, userId, jobName,qty }).exec(function (err, succ) {
+        Partordersy.create({ id, userId, jobName,qty }).exec(function (err, succ) {
             if (err) {
                 return res566.json(err)
             }
@@ -35,7 +35,7 @@ module.exports = {
 
     getPartordersView: function (req566, res566) {
         let options = '';
-        Partorders.query('SELECT distinct jobName FROM `Project-G14`.partorders', function (err566, succ566) {
+        Partordersy.query('SELECT distinct jobName FROM `Project-G14`.partordersy', function (err566, succ566) {
             if (err566) {
                 return res566.json(err566)
             }
@@ -44,7 +44,7 @@ module.exports = {
             sails.log(options)
         })
 
-        Partorders.find().sort([{ jobName: 'ASC' },{ userId: 'ASC' },{ qty: 'ASC' }]).exec(function (err566, succ566) {
+        Partordersy.find().sort([{ jobName: 'ASC' },{ userId: 'ASC' },{ qty: 'ASC' }]).exec(function (err566, succ566) {
             if (err566) {
                 return res566.json(err566)
             }
@@ -58,7 +58,7 @@ module.exports = {
         sails.log(jobName)
         let options = '';
 
-        Partorders.query('SELECT distinct jobName FROM `Project-G14`.partorders', function (err566, succ566) {
+        Partordersy.query('SELECT distinct jobName FROM `Project-G14`.partordersy', function (err566, succ566) {
             if (err566) {
                 return res566.json(err566)
             }
@@ -67,7 +67,7 @@ module.exports = {
             sails.log(options)
         })
 
-        Partorders.find({ jobName }).sort([{ jobName: 'ASC' },{ userId: 'ASC' },{ qty: 'ASC' }]).exec(function (err566, succ566) {
+        Partordersy.find({ jobName }).sort([{ jobName: 'ASC' },{ userId: 'ASC' },{ qty: 'ASC' }]).exec(function (err566, succ566) {
             if (err566) {
                 return res566.json(err566)
             }
