@@ -7,14 +7,6 @@ class search extends Component {
     super(props);
     this.state = {
       jobs: [
-        // {
-        //   id: "SR1",
-        //   partId: "16-06-2020",
-        // },
-        // {
-        //   id: "SR2",
-        //   partId: "15-06-2020",
-        // },
       ],
     };
   }
@@ -63,6 +55,9 @@ class search extends Component {
 
   orderJob(index) {
     console.log(index);
+    localStorage.setItem('jobID', index.jobName);
+    console.log('jobID : ' +  index.jobName);
+    this.props.history.push('/orderParts');
   }
   renderJobs() {
     const { jobs } = this.state;
@@ -125,11 +120,11 @@ class search extends Component {
             aria-label="Search"
           />{" "}
           {"    "}
-          <button size="sm" type="submit" onClick={() => this.filterJobs()}>
+          <Button variant="dark" type="submit" onClick={() => this.filterJobs()}>
             Search
-          </button>
+          </Button>
           {"    "}
-          <button onClick={() => this.reset()}>Reset</button>
+          <Button variant="dark"onClick={() => this.reset()}>Reset</Button>
           <br />
           <br />
           {this.renderTable()}
