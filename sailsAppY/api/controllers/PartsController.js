@@ -101,6 +101,19 @@ module.exports = {
         })
     },
 
+    getPartIds: function (req566, res566) {
+        let options = '';
+        Parts.query('SELECT partId FROM `Project-G14`.parts', function (err566, succ566) {
+            if (err566) {
+                return res566.json(err566)
+            }
+            //return res566.json(succ566);
+            options = succ566['rows'];
+            sails.log(options)
+            res566.json(options)
+        });
+    },
+
     //view data
     getPartsView566: function (req566, res566) {
         Parts.find().exec(function (err566, succ566) {

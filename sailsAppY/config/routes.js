@@ -39,6 +39,7 @@ module.exports.routes = {
   "POST /postParts": "Parts.postParts",
   "Put /putParts": "Parts.putParts",
   "Delete /deleteParts": "Parts.deleteParts",
+  "GET /getPartIds": "Parts.getPartIds",
 
   "Get /getPartsView566": "Parts.getPartsView566",
   "GET /addjob": { view: "Pages/addjob" },

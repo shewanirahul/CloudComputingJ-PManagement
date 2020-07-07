@@ -22,6 +22,7 @@
     <select name="PartId566" id="PartId566">
         
         <% options.forEach(function(option){ %>
+            alert( option.partId)
             <option value=<%= option.partId %> ><%= option.partId %> </option>
         
         <% }) %>

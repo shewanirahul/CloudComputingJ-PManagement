@@ -1,4 +1,8 @@
 const PartsModel = require("../models/Parts");
+var request = require('request');
+var http = require('http');
+var rp = require('request-promise');
+const { setMaxListeners } = require("process");
 
 /**
  * CloudjobsController
@@ -8,6 +12,7 @@ const PartsModel = require("../models/Parts");
  */
 
 module.exports = {
+
   getParts: function (req566, res566) {
     Jobs.find().exec(function (err566, succ566) {
       if (err566) {
@@ -95,36 +100,56 @@ module.exports = {
     });
   },
 
+
   //view data
   getPartsView566: function (req566, res566) {
     let options = "";
-    Jobs.query("select partId from `Project-G14`.parts", function (err, succ) {
-      //sails.log(succ);
-      options = succ["rows"];
-    });
+
+    var url = {
+      uri: 'http://129.173.67.174:1337/getPartIds',
+      json: true
+  };
+  rp(url).then(function(repos) {
+    options = repos;
+
     Jobs.find().exec(function (err566, succ566) {
       if (err566) {
         return res566.json(err566);
       }
-      // return res566.json(succ566);
       res566.view("pages/viewjobs", { parts: succ566, options: options });
     });
+
+  })
+  .catch(function(err) {
+    // API call failed...
+    return res566.json(err);
+  });
   },
 
   getPartsViewForUpdate566: function (req566, res566) {
     let options = "";
-    Jobs.query("select partId from `Project-G14`.parts", function (err, succ) {
-      //sails.log(succ);
-      options = succ["rows"];
-    });
+
+    var url = {
+      uri: 'http://129.173.67.174:1337/getPartIds',
+      json: true
+  };
+  rp(url).then(function(repos) {
+    options = repos;
+
     Jobs.find().exec(function (err566, succ566) {
       if (err566) {
         return res566.json(err566);
       }
-      // return res566.json(succ566);
-      //sails.log(options);
       res566.view("pages/updatejobs", { parts: succ566, options: options });
     });
+
+  })
+  .catch(function(err) {
+    // API call failed...
+    return res566.json(err);
+  });
+
+
   },
 
   postPartsView566: function (req566, res566) {
