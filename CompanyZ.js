@@ -12,7 +12,7 @@ var config = {
   host: "assignment5.cem910xoytdp.us-east-1.rds.amazonaws.com",
   user: "lavanya",
   password: "B00834718",
-  database: "ProjectG14",
+  database: "Project-G14",
   port: 3306,
 };
 
@@ -23,7 +23,7 @@ db.connect(function (err) {
     throw err;
   } else {
     console.log("Connection established.");
-    sql = "use ProjectG14;";
+    sql = "use `Project-G14`;";
     db.query(sql, function (err, result) {
       if (err) throw err;
       console.log("Result: " + JSON.stringify(result));
@@ -34,7 +34,7 @@ db.connect(function (err) {
 //Get data
 app.get("/companyz/users", (req, res) => {
   console.log("i m here");
-  let sql = "SELECT * FROM ProjectG14.Userlogin";
+  let sql = "SELECT * FROM userlogin";
   let query = db.query(sql, (err, Parts718) => {
     if (err) throw err;
     console.log(Parts718);
@@ -44,7 +44,7 @@ app.get("/companyz/users", (req, res) => {
 //Retrieve data corresponding to username and password
 app.get("/companyz/users/:username/:password", (req, res) => {
   let values = [req.params.username, req.params.password];
-  let sql = "SELECT * FROM Userlogin WHERE username = ? AND password =?";
+  let sql = "SELECT * FROM userlogin WHERE username = ? AND password =?";
   console.log(sql);
   let query = db.query(sql, values, (err, result) => {
     if (err) {
@@ -216,7 +216,7 @@ app.post("/companyz/insertSearch", jsonParser, (req, res) => {
   let seconds = date_ob.getSeconds();
 
   let values = [req.body.jobName];
-  let sql = "INSERT INTO ProjectG14.Search SET ?";
+  let sql = "INSERT INTO search SET ?";
   let data = {
     jobName: req.body.jobName,
     date: year + "-" + month + "-" + date,
@@ -252,7 +252,7 @@ app.post("/companyz/insertSearch", jsonParser, (req, res) => {
   //Check if that jobid is already there for that user
 
   let valuesForJobs = [jobId, userId];
-  let sqlForJobs = "SELECT * FROM JobParts WHERE jobName = ? AND userId =?";
+  let sqlForJobs = "SELECT * FROM jobparts WHERE jobName = ? AND userId =?";
   
   let queryForJobs = db.query(sqlForJobs, valuesForJobs, (err, resultForJobs) => {
     if (err) {
@@ -267,7 +267,7 @@ app.post("/companyz/insertSearch", jsonParser, (req, res) => {
       partsToBeBooked.forEach(function(partToBeBooked) {
 
         newQuantity = partToBeBooked.qoh - partToBeBooked.qty; 
-        let sql = 'UPDATE Parts SET ? WHERE partId =  ' +partToBeBooked.partId;
+        let sql = 'UPDATE parts SET ? WHERE partId =  ' +partToBeBooked.partId;
         let data = { qoh: newQuantity };
         
         //Subtract partQuantity from Parts Table
@@ -279,12 +279,12 @@ app.post("/companyz/insertSearch", jsonParser, (req, res) => {
           });    
         
           //Insert new record in JobParts
-          let insertSql = "INSERT INTO JobParts SET ?";
+          let insertSql = "INSERT INTO jobparts SET ?";
           let JobPartsdata = {
             partId: partToBeBooked.partId,
             jobName: partToBeBooked.id,
             userId: userId,
-            qty:newQuantity,
+            qty:partToBeBooked.qty,
             date: year + "-" + month + "-" + date,
             time: hours + ":" + minutes + ":" + seconds,
             result: 'Success'
@@ -294,22 +294,22 @@ app.post("/companyz/insertSearch", jsonParser, (req, res) => {
             if (err) {
               throw err;
             }
-            //sUCCESSFULLY INSERTED IN JobParts
+            console.log("SUCCESSFULLY INSERTED IN JobParts");
           });      
           
           //Insert new record in PartOrders
-          let insertSqlPartOrdersX = "INSERT INTO PartOrders SET ?";
+          let insertSqlPartOrdersX = "INSERT INTO partorders SET ?";
           let PartOrdersXdata = {
             partId: partToBeBooked.partId,
             jobName: partToBeBooked.id,
             userId: userId,
-            qty:newQuantity
+            qty:partToBeBooked.qty
           };
           let queryX = db.query(insertSqlPartOrdersX, PartOrdersXdata, (err, resultx) => {
             if (err) {
               throw err;
             }
-            //sUCCESSFULLY INSERTED IN PARTSX
+            console.log("sUCCESSFULLY INSERTED IN PARTSX");
           });      
     
           //Insert new record in partordersy  
@@ -318,13 +318,13 @@ app.post("/companyz/insertSearch", jsonParser, (req, res) => {
             partId: partToBeBooked.partId,
             jobName: partToBeBooked.id,
             userId: userId,
-            qty:newQuantity
+            qty:partToBeBooked.qty
           };
           let queryY = db.query(insertSqlPartOrdersY, PartOrdersYdata, (err, resultY) => {
             if (err) {
               throw err;
             }
-            //sUCCESSFULLY INSERTED IN PARTSY
+            console.log("sUCCESSFULLY INSERTED IN PARTSY");
           }); 
     });
     res.status(200);
@@ -333,12 +333,12 @@ app.post("/companyz/insertSearch", jsonParser, (req, res) => {
       //insert failure
       partsToBeBooked.forEach(function(partToBeBooked) {
         newQuantity = partToBeBooked.qoh - partToBeBooked.qty; 
-      let insertSqlFailure = "INSERT INTO JobParts SET ?";
+      let insertSqlFailure = "INSERT INTO jobparts SET ?";
           let JobPartsdataFailure = {
             partId: partToBeBooked.partId,
             jobName: partToBeBooked.id,
             userId: userId,
-            qty:newQuantity,
+            qty:partToBeBooked.qty,
             date: year + "-" + month + "-" + date,
             time: hours + ":" + minutes + ":" + seconds,
             result: 'Failure'
@@ -348,7 +348,7 @@ app.post("/companyz/insertSearch", jsonParser, (req, res) => {
             if (err) {
               console.log('Error Occurred');
             }
-            //sUCCESSFULLY INSERTED IN JobParts
+            console.log("sUCCESSFULLY INSERTED IN JobParts");
           });      
         })
         res.status(400);
