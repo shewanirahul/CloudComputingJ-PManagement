@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { Form, Container } from "react-bootstrap";
+import { Form, Jumbotron } from "react-bootstrap";
 import "./login.css"
 
-// function fetch() {
-//     return new Promise(resolve => setTimeout(() => resolve(30), 1000));
-//   }
   
   function fetchAPI(username, password) {
     // param is a highlighted word from the user before it clicked the button
@@ -100,8 +97,13 @@ handleChange(e) {
     render() {
         return (
             <React.Fragment>
-             <h1>WELCOME</h1>  
-        <Container className="login">      
+              <Jumbotron className="jumbotron bg-success text-white">
+     
+      <br></br>
+
+          <br></br>
+      <h3>Login to place order</h3>
+  
       <Form className="loginForm">
           <br></br>
           <h5> </h5>
@@ -119,7 +121,8 @@ handleChange(e) {
         </form>
        
         </Form>
-        </Container> 
+      
+        </Jumbotron>
       </React.Fragment >
         );
     }

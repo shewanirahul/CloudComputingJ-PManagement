@@ -1,6 +1,9 @@
 import React, { Component } from "react";
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, Navbar, Form, FormControl, Nav, Jumbotron } from "react-bootstrap";
 import "../App.css";
+import "./login.css";
+
+
 
 class search extends Component {
   constructor(props) {
@@ -37,7 +40,7 @@ class search extends Component {
     console.log(jobs);
     if (jobs.length > 0) {
       return (
-        <Table striped bordered hover>
+        <Table striped bordered hover variant="dark">
           <thead>
             <tr>
               <th>Job</th>
@@ -68,7 +71,7 @@ class search extends Component {
             <td>{index.jobName}</td>
             <td>{index.parts}</td>
             <td>
-              <Button variant="dark" onClick={() => this.orderJob(index)}>
+              <Button variant="success " onClick={() => this.orderJob(index)}>
                 Get Job
               </Button>
             </td>
@@ -109,6 +112,8 @@ class search extends Component {
   render() {
     return (
       <React.Fragment>
+    <Jumbotron className="jumbotron bg-success text-white">
+      <h2> Welcome To Company Z</h2>
         <div className="inner">
           <h2>Jobs</h2>
           <br />
@@ -129,6 +134,7 @@ class search extends Component {
           <br />
           {this.renderTable()}
         </div>
+        </Jumbotron>
       </React.Fragment>
     );
   }
