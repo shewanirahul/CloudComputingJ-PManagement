@@ -90,7 +90,7 @@ class search extends Component {
       jobName: this.refs.job.value,
     };
     fetch(
-      "http://ca6-env.eba-eendcmee.us-east-1.elasticbeanstalk.com/companyz/insertSearch",
+      "http://cloud6a-env.eba-t7ffpjmv.us-east-1.elasticbeanstalk.com/companyz/insertSearch",
       {
         method: "POST",
         headers: { "Content-type": "application/json" },

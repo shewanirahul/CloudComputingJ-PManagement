@@ -44,7 +44,7 @@ export default class ApplyExit extends Component {
     console.log("Username" + username);
     console.log("Username" + password);
     fetch(
-      `http://ca6-env.eba-eendcmee.us-east-1.elasticbeanstalk.com/companyz/users/${username}/${password}`
+      `http://cloud6a-env.eba-t7ffpjmv.us-east-1.elasticbeanstalk.com/companyz/users/${username}/${password}`
     )
       .then((r) => r.json())
       .then((response) => {

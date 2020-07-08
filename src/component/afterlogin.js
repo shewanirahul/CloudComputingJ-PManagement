@@ -18,7 +18,7 @@ export class afterlogin extends React.Component {
     console.log(json);
 
     fetch(
-      "http://ca6-env.eba-eendcmee.us-east-1.elasticbeanstalk.com/companyz/book",
+      "http://cloud6a-env.eba-t7ffpjmv.us-east-1.elasticbeanstalk.com/companyz/book",
       {
         method: "POST",
         headers: { "Content-type": "application/json" },
