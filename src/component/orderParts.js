@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Table, Button,Jumbotron} from 'react-bootstrap';
+import {Table, Button} from 'react-bootstrap';
 import axios from 'axios';
 
 export default class orderParts extends Component {
@@ -73,7 +73,7 @@ componentDidMount(){
       return null;
    }
     return (
-      <Table striped bordered hover variant="dark">
+      <Table striped bordered hover>
         <thead>
           <tr>
             <th>Job ID</th>
@@ -89,7 +89,8 @@ componentDidMount(){
 }
 
 sendToLogin(){
-  localStorage.setItem('jobDetails',this.state.tableData)
+  localStorage.setItem('jobDetails',JSON.stringify(this.state.tableData))
+  localStorage.removeItem("logInResults");
   this.props.history.push('/login')
 }
   
@@ -137,9 +138,7 @@ isQuantityValid(){
 }
 
     render() {
-        return (
-        <React.Fragment>
-           <Jumbotron className="jumbotron bg-success text-white">
+        return (<React.Fragment>
           <div className="inner">
             <h1>Job Details</h1>
             <br />
@@ -147,11 +146,10 @@ isQuantityValid(){
             {this.renderTable()}
             <br />
             <br />
-            <Button size="sm" variant="warning" disabled={this.isQuantityValid()} type="submit" onClick={() => this.sendToLogin()}>
+            <Button size="sm" variant="dark" disabled={this.isQuantityValid()} type="submit" onClick={() => this.sendToLogin()}>
             Login to Confirm order
             </Button>
           </div>
-          </Jumbotron>
         </React.Fragment>);
     }
 }

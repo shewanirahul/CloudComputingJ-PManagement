@@ -1,39 +1,11 @@
 import React, { Component } from 'react';
-import { Form, Jumbotron } from "react-bootstrap";
+import { Form, Container } from "react-bootstrap";
 import "./login.css"
 
-  
-  function fetchAPI(username, password) {
-    // param is a highlighted word from the user before it clicked the button
-
-    return fetch(`http://localhost:3004/companyz/users/${username}/${password}`)
-    .then(response => {
-      if (response.status === 401) {
-        alert("Invalid Credentials");
-      } else  if (response.status === 200) {
-        alert("Successfully logged in")
-      }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-    })
-    // .then(data => {
-    //   console.log(data.status + "status")
-    //   if (data.status == 200) {
-    //     console.log('Success:', data);
-    //   this.props.history.push("/afterlogin")
-    //   }
-    // })
-    // .catch(function(error)
-    // {
-    //   console.log(error + "errror")
-    //   if (error.status == 401){
-    //     console.log("unauth");
-    //   }
-    // } ); 
-  }
 
 export default class ApplyExit extends Component {
     constructor() {
         super();
-        //this.textInput = React.createRef();
        
     this.state = {
       
@@ -45,6 +17,7 @@ export default class ApplyExit extends Component {
     }
     this.handleChange=this.handleChange.bind(this);
     this.loginForm = this.loginForm.bind(this)
+    this.fetchAPI = this.fetchAPI.bind(this)
 }
 handleChange(e) {
     let fields = this.state.fields;
@@ -59,21 +32,47 @@ handleChange(e) {
     e.preventDefault();
     if (this.validateForm()) {
         console.log("fields" + this.refs.username.value);
-        console.log("username" + this.username);
-        console.log("password" + this.password);
+
 
 
         let fields = {};
         fields["username"] = "";
         fields["password"] = "";
         this.setState({fields:fields});
-        //alert("Login Successfull");
-         //let selectedWord = window.getSelection().toString();
-    console.log("hi");
+  
     console.log(window.getSelection().toString());
-    fetchAPI(this.refs.username.value, this.refs.password.value);
+   
+    this.fetchAPI(this.refs.username.value, this.refs.password.value);
+    
+
+    
   }
 }
+
+fetchAPI(username, password) {
+  // param is a highlighted word from the user before it clicked the button
+  console.log("Username"+username);
+  console.log("Username"+password);
+  fetch(`http://localhost:3004/companyz/users/${username}/${password}`)
+  .then((r) => r.json())
+  .then(response => {
+    console.log("Line 12"+response.uerId)
+    if (!response.uerId) {
+      console.log('Failure')
+      localStorage.setItem("logInResults","failure");
+      alert("Invalid Credentials");
+    } else {
+      
+      console.log('TResult of response   '+ response.uerId);
+      
+      localStorage.setItem("user",response.uerId);   
+      this.props.history.push('/afterLogin')
+
+    }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+  })
+ 
+}
+
   validateForm(){
     let fields = this.state.fields;
     let errors = {};
@@ -97,13 +96,8 @@ handleChange(e) {
     render() {
         return (
             <React.Fragment>
-              <Jumbotron className="jumbotron bg-success text-white">
-     
-      <br></br>
-
-          <br></br>
-      <h3>Login to place order</h3>
-  
+             <h1>WELCOME</h1>  
+        <Container className="login">      
       <Form className="loginForm">
           <br></br>
           <h5> </h5>
@@ -121,8 +115,7 @@ handleChange(e) {
         </form>
        
         </Form>
-      
-        </Jumbotron>
+        </Container> 
       </React.Fragment >
         );
     }
