@@ -6,8 +6,7 @@ class search extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      jobs: [
-      ],
+      jobs: [],
     };
   }
 
@@ -55,9 +54,9 @@ class search extends Component {
 
   orderJob(index) {
     console.log(index);
-    localStorage.setItem('jobID', index.jobName);
-    console.log('jobID : ' +  index.jobName);
-    this.props.history.push('/orderParts');
+    localStorage.setItem("jobID", index.jobName);
+    console.log("jobID : " + index.jobName);
+    this.props.history.push("/orderParts");
   }
   renderJobs() {
     const { jobs } = this.state;
@@ -90,11 +89,14 @@ class search extends Component {
     let jobInfo = {
       jobName: this.refs.job.value,
     };
-    fetch("http://localhost:3004/companyz/insertSearch", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify(jobInfo),
-    })
+    fetch(
+      "http://ca6-env.eba-eendcmee.us-east-1.elasticbeanstalk.com/companyz/insertSearch",
+      {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify(jobInfo),
+      }
+    )
       .then((r) => r.json())
       .then((res) => {
         if (res) {
@@ -120,11 +122,17 @@ class search extends Component {
             aria-label="Search"
           />{" "}
           {"    "}
-          <Button variant="dark" type="submit" onClick={() => this.filterJobs()}>
+          <Button
+            variant="dark"
+            type="submit"
+            onClick={() => this.filterJobs()}
+          >
             Search
           </Button>
           {"    "}
-          <Button variant="dark"onClick={() => this.reset()}>Reset</Button>
+          <Button variant="dark" onClick={() => this.reset()}>
+            Reset
+          </Button>
           <br />
           <br />
           {this.renderTable()}
