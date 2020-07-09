@@ -58,24 +58,28 @@ module.exports = {
         let qoh = parseInt(req566.body.qoh, 0);
         
         sails.log(id, qoh)
-        Parts.find({ id }).exec(function (err566, succ566) {
-            if (err566) {
-                return res566.json(err566)
-            }
-            else if (succ566.length > 0) {
-                Parts.update({ id }).set({ qoh }).exec(function (err, succ) {
-                    if (err) {
-                        return res566.json(err)
-                    }
-                    else {
-                        return res566.json("successfully updated..");
-                    }
-                }) 
-            }
-            else {
-                return res566.json("Id does not exists");
-            }
-        })
+        if (qoh > 0) {
+            Parts.find({ id }).exec(function (err566, succ566) {
+                if (err566) {
+                    return res566.json(err566)
+                }
+                else if (succ566.length > 0) {
+                    Parts.update({ id }).set({ qoh }).exec(function (err, succ) {
+                        if (err) {
+                            return res566.json(err)
+                        }
+                        else {
+                            return res566.json("successfully updated..");
+                        }
+                    })
+                }
+                else {
+                    return res566.json("Id does not exists");
+                }
+            })
+        } else {
+            return res566.status(400).json("No sufficient Parts");
+        }
     },
 
     deleteParts: function (req566, res566) {
