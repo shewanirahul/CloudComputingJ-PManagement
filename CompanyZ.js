@@ -1,6 +1,8 @@
 const express = require("express");
 var cors = require("cors");
 const mysql = require("mysql");
+var http = require('http');
+const fetch = require('node-fetch');
 const app = express();
 const bodyParser = require("body-parser");
 app.use(cors());
@@ -285,27 +287,22 @@ app.post("/companyz/book", jsonParser, (req, res) => {
               }
             );
           } else {
-            let sql =
-              "UPDATE parts SET ? WHERE partId =  " + partToBeBooked.partId;
-            let data = { qoh: newQuantity };
-
-            //Subtract partQuantity from Parts Table
-            let queryInsert = db.query(sql, data, (err, partSubtract) => {
-              if (err) {
-                throw err;
-              }
-              console.log(
-                "Data {" +
-                  partToBeBooked.partName +
-                  " , " +
-                  partToBeBooked.partId +
-                  " , " +
-                  data.qoh +
-                  "} updated in the parts table"
-              );
+            let data = JSON.stringify({
+              partId: partToBeBooked.partId,
+              qoh: newQuantity  
             });
-          }
+      
+ 
+            fetch('http://129.173.67.174:1337/putParts', {
+                    method: 'put',
+                    body:    data,
+                    headers: { 'Content-Type': 'application/json' },
+                })
+                .then(res => console.log('Called Company Y For parts update'+res.status));
 
+
+       
+              }  
           //Insert new record in JobParts
           let insertSql = "INSERT INTO jobparts SET ?";
           let JobPartsdata = {
@@ -326,42 +323,36 @@ app.post("/companyz/book", jsonParser, (req, res) => {
           });
 
           //Insert new record in PartOrders
-          let insertSqlPartOrdersX = "INSERT INTO partorders SET ?";
-          let PartOrdersXdata = {
+          let PartOrdersXdata = JSON.stringify({
             partId: partToBeBooked.partId,
             jobName: partToBeBooked.id,
             userId: userId,
             qty: partToBeBooked.qty,
-          };
-          let queryX = db.query(
-            insertSqlPartOrdersX,
-            PartOrdersXdata,
-            (err, resultx) => {
-              if (err) {
-                throw err;
-              }
-              console.log("sUCCESSFULLY INSERTED IN PARTSX");
-            }
-          );
+          });
+  
+
+          fetch('http://129.173.67.163:1337/postPartorders', {
+            method: 'post',
+            body:    PartOrdersXdata,
+            headers: { 'Content-Type': 'application/json' },
+        })
+        .then(res => console.log('Called Company X For parts post'+res.status));
 
           //Insert new record in partordersy
-          let insertSqlPartOrdersY = "INSERT INTO partordersy SET ?";
-          let PartOrdersYdata = {
+          
+          let PartOrdersYdata = JSON.stringify({
             partId: partToBeBooked.partId,
             jobName: partToBeBooked.id,
             userId: userId,
             qty: partToBeBooked.qty,
-          };
-          let queryY = db.query(
-            insertSqlPartOrdersY,
-            PartOrdersYdata,
-            (err, resultY) => {
-              if (err) {
-                throw err;
-              }
-              console.log("sUCCESSFULLY INSERTED IN PARTSY");
-            }
-          );
+          });
+          fetch('http://129.173.67.174:1337/postPartorders', {
+            method: 'post',
+            body:    PartOrdersYdata,
+            headers: { 'Content-Type': 'application/json' },
+        })
+        .then(res => console.log('Called Company Y For parts post'+res.status));
+
         });
         res.status(200);
         res.send("success");
