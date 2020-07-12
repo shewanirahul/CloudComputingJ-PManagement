@@ -13,7 +13,7 @@ module.exports = {
       required: true
     },
     userId: {
-      type: 'number'
+      type: 'string'
     },
     jobName: {
       type: 'string'
